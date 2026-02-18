@@ -16,9 +16,17 @@ contract SavingsVault {
    
     uint256 private locked = 1;
     modifier nonReentrant() {
+        _nonReentrantBefore();
+        _;
+        _nonReentrantAfter();
+    }
+
+    function _nonReentrantBefore() internal {
         require(locked == 1, "REENTRANCY");
         locked = 2;
-        _;
+    }
+
+    function _nonReentrantAfter() internal {
         locked = 1;
     }
 
